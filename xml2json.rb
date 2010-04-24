@@ -15,20 +15,14 @@ end
 
 get '/' do
   begin
-    if (params['callback'].blank? || params['url'].blank?)
-      "#{params['callback']}({'error' : 'Must include url and callback'})"
-    else
-      Timeout::timeout(TIME_OUT) do
-        resp = open(params['url']).read
-        xml = Crack::XML.parse(resp)
-        "#{params['callback']}(#{xml.to_json})" 
-      end
+    Timeout::timeout(TIME_OUT) do
+      resp = open(params['url']).read
+      xml = Crack::XML.parse(resp)
+      xml.to_json 
     end
   rescue Timeout::Error
-    "#{params['callback']}({'error' : 'Requesting the json took too long. Time limit is #{TIME_OUT} seconds.'})"
+    "({'error' : 'Requesting the json took too long. Time limit is #{TIME_OUT} seconds.'})"
   rescue Errno::ENOENT => e
-    "#{params['callback']}({'error' : 'Problem requesting the json: #{e}'})"
-  rescue Exception => e
-    "#{params['callback']}({'error' : 'A problem ocurred: #{e}'})"
+    "({'error' : 'Problem requesting the json: #{e}'})"
   end
 end
