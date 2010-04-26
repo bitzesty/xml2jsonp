@@ -3,6 +3,10 @@ require 'sinatra'
 require 'httparty'
 require 'json'
 
+before do
+  content_type :json 	
+end
+
 get '/' do
   if params['url']
     response = HTTParty.get(params['url'])
