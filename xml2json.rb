@@ -13,7 +13,18 @@ get '/' do
     r = response.dup.to_json
     "#{params['callback']}(#{r})"
   else
-    "<h1>XML2JSONP API Proxy</h1><code>required params['url'] and params['callback']</code><p><a href='http://github.com/bitzesty/xml2jsonp'>http://github.com/bitzesty/xml2jsonp</a> by <a href='http://bitzesty.com'>Bit Zesty - a Ruby on Rails development company</a></p>"
+    %Q(
+    <!DOCTYPE html>
+    <html lang="en">
+    <head><title>XML2JSONP API Proxy</title></head>
+    <body>
+    <h1>XML2JSONP API Proxy</h1>
+    <code>required params['url'] and params['callback']</code><p>
+    <a href='http://github.com/bitzesty/xml2jsonp'>http://github.com/bitzesty/xml2jsonp</a>
+    by <a href='http://bitzesty.com'>Bit Zesty - a Ruby on Rails development company</a></p>
+    </body>
+    </html>
+    )
   end
 end
 
